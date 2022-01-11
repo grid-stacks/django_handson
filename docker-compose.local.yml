@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: handson_local_django
+    container_name: handson_django
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: /start
+    volumes:
+      - .:/app:z
+    depends_on:
+      - postgres
+      - redis
+      - mailhog
+    networks:
+      - handson_net
+
+  celeryworker:
+    <<: *django
+    image: handson_local_celeryworker
+    container_name: handson_celeryworker
+    depends_on:
+      - redis
+      - postgres
+      - mailhog
+    ports: [ ]
+    command: /start-celeryworker
+    networks:
+      - handson_net
+
+  celerybeat:
+    <<: *django
+    image: handson_local_celerybeat
+    container_name: handson_celerybeat
+    depends_on:
+      - redis
+      - postgres
+      - mailhog
+    ports: [ ]
+    command: /start-celerybeat
+    networks:
+      - handson_net
+
+  flower:
+    <<: *django
+    image: handson_local_flower
+    container_name: handson_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower
+    networks:
+      - handson_net
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/local/postgres/Dockerfile
+    image: handson_local_postgres
+    container_name: handson_postgres
+    restart: always
+    env_file:
+      - ./.envs/.local/.postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:Z
+      - postgres_data_backups:/backups:z
+    networks:
+      - handson_net
+
+  adminer:
+    image: adminer
+    container_name: handson_adminer
+    restart: always
+    ports:
+      - "9090:8080"
+    depends_on:
+      - postgres
+    networks:
+      - handson_net
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: handson_mailhog
+    ports:
+      - "8025:8025"
+    networks:
+      - handson_net
+
+  redis:
+    image: redis
+    container_name: handson_redis
+    networks:
+      - handson_net
+
+volumes:
+  postgres_data:
+  postgres_data_backups:
+
+networks:
+  handson_net:
+    driver: bridge
