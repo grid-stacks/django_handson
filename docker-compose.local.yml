@@ -10,11 +10,13 @@ services:
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     command: /start
     volumes:
       - .:/app:z
+      - static_volume:/app/static
+      - media_volume:/app/media
     depends_on:
       - postgres
       - redis
@@ -54,8 +56,6 @@ services:
     container_name: handson_flower
     ports:
       - "5555:5555"
-    extra_hosts:
-      - "host.docker.internal: 172.17.0.1"
     command: /start-flower
     networks:
       - handson_net
@@ -115,8 +115,6 @@ services:
       - '--web.enable-lifecycle'
     ports:
       - "9095:9090"
-    extra_hosts:
-      - "host.docker.internal: 172.17.0.1"
     networks:
       - handson_net
 
@@ -127,16 +125,32 @@ services:
       - grafana_storage:/var/lib/grafana
     ports:
       - "3050:3000"
-    extra_hosts:
-      - "host.docker.internal: 172.17.0.1"
     networks:
       - handson_net
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./compose/local/nginx/Dockerfile
+    image: handson_local_nginx
+    container_name: handson_nginx
+    ports:
+      - "1300:80"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    networks:
+      - handson_net
+    depends_on:
+      - django
 
 volumes:
   postgres_data:
   postgres_data_backups:
   prometheus_data:
   grafana_storage:
+  static_volume:
+  media_volume:
 
 networks:
   handson_net:
