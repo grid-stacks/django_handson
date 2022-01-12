@@ -35,6 +35,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'django_celery_beat',
+    # 'django_prometheus',
 ]
 
 LOCAL_APPS = [
@@ -44,6 +45,7 @@ LOCAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'django_handson.urls'
@@ -77,21 +80,22 @@ WSGI_APPLICATION = 'django_handson.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# Docker settings
-DATABASES = {"default": env.db("DATABASE_URL")}
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
-
-# General settings
-# DATABASES = {
-#     'default': {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": os.environ["DB_NAME"],
-#         "USER": os.environ["DB_USER"],
-#         "PASSWORD": os.environ["DB_PASSWORD"],
-#         "HOST": os.environ["DB_HOST"],
-#         "PORT": os.environ["DB_PORT"],
-#     }
-# }
+if env('USE_DOCKER') == "yes":
+    # Docker settings
+    DATABASES = {"default": env.db("DATABASE_URL")}
+    DATABASES["default"]["ATOMIC_REQUESTS"] = True
+else:
+    # General settings
+    DATABASES = {
+        'default': {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": env("DB_NAME"),
+            "USER": env("DB_USER"),
+            "PASSWORD": env("DB_PASSWORD"),
+            "HOST": env("DB_HOST"),
+            "PORT": env("DB_PORT"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

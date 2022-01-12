@@ -54,6 +54,8 @@ services:
     container_name: handson_flower
     ports:
       - "5555:5555"
+    extra_hosts:
+      - "host.docker.internal: 172.17.0.1"
     command: /start-flower
     networks:
       - handson_net
@@ -113,6 +115,8 @@ services:
       - '--web.enable-lifecycle'
     ports:
       - "9095:9090"
+    extra_hosts:
+      - "host.docker.internal: 172.17.0.1"
     networks:
       - handson_net
 
@@ -123,6 +127,8 @@ services:
       - grafana_storage:/var/lib/grafana
     ports:
       - "3050:3000"
+    extra_hosts:
+      - "host.docker.internal: 172.17.0.1"
     networks:
       - handson_net
 
@@ -134,6 +140,4 @@ volumes:
 
 networks:
   handson_net:
-    driver: host
-    external:
-      name: handson_net
+    driver: bridge
