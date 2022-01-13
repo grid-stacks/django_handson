@@ -68,8 +68,6 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
-ROOT_URLCONF = 'django_handson.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -87,7 +85,13 @@ TEMPLATES = [
     },
 ]
 
+# URLS
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
+ROOT_URLCONF = 'django_handson.urls'
+# https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = 'django_handson.wsgi.application'
+ASGI_APPLICATION = 'django_handson.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
