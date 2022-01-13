@@ -30,6 +30,7 @@ DJANGO_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    "django.contrib.sites",
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
@@ -38,6 +39,13 @@ THIRD_PARTY_APPS = [
     'channels',
     'django_celery_beat',
     # 'django_prometheus',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "corsheaders",
+    "debug_toolbar"
 ]
 
 LOCAL_APPS = [
@@ -57,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
 
 ROOT_URLCONF = 'django_handson.urls'
@@ -120,14 +129,21 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/1
-
+# https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = 'en-us'
-
+# Local time zone. Choices are
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# though not all of them may be available with every OS.
+# In Windows, this must be set to your system time zone.
 TIME_ZONE = 'UTC'
-
+# https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
-
+# https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
+USE_L10N = True
+# https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
+# https://docs.djangoproject.com/en/dev/ref/settings/#locale-paths
+LOCALE_PATHS = [str(BASE_DIR / "locale")]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -166,3 +182,22 @@ EMAIL_HOST = env("EMAIL_HOST", default="mailhog")
 EMAIL_PORT = 1025
 
 MANAGERS = [("DHN", "php.chandan@gmail.com"), ("Sajib", "sajib001@gmail.com")]
+
+
+# Django debug toolbar settings
+def show_toolbar(request):
+    return True
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],
+    "SHOW_TEMPLATE_CONTEXT": True,
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+    'INTERCEPT_REDIRECTS': True,
+}
+
+# https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#internal-ips
+INTERNAL_IPS = ["127.0.0.1"]
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#site-id
+SITE_ID = 1
