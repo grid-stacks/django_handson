@@ -7,14 +7,17 @@ scrape_configs:
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: [ '172.17.0.1:9095' ]
+      - targets: [ 'prometheus:9090' ]
   - job_name: flower
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: [ '172.17.0.1:5555' ]
+      - targets: [ 'flower:5555' ]
+    basic_auth:
+      username: 'debug'
+      password: 'debug'
   - job_name: monitoring
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: [ 'host.docker.internal', 'host.docker.internal:8000', '172.17.0.1:8000' ]
+      - targets: [ 'nginx', 'django:8000' ]
