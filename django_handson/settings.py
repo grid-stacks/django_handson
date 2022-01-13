@@ -35,12 +35,14 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'channels',
     'django_celery_beat',
     # 'django_prometheus',
 ]
 
 LOCAL_APPS = [
     'bg_task',
+    'channel_test',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

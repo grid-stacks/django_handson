@@ -2,7 +2,8 @@ asgiref==3.4.1
 backports.zoneinfo==0.2.1
 sqlparse==0.4.2
 python-dotenv~=0.19.2
-
+python-slugify      # https://github.com/un33k/python-slugify
+Pillow              # https://github.com/python-pillow/Pillow
 redis               # https://github.com/redis/redis-py
 hiredis             # https://github.com/redis/hiredis-py
 celery              # pyup: < 6.0  # https://github.com/celery/celery
@@ -11,6 +12,7 @@ flower              # https://github.com/mher/flower
 uvicorn[standard]   # https://github.com/encode/uvicorn
 environ
 django-environ
+channels
 
 # Django
 # ------------------------------------------------------------------------------
