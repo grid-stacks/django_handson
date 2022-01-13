@@ -143,4 +143,7 @@ cython_debug/
 !.elasticbeanstalk/*.global.yml
 
 # Editor folder
-.idea
+.idea!/data/
+
+# Docker volumes
+data

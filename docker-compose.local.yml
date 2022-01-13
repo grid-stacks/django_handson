@@ -97,6 +97,58 @@ services:
   redis:
     image: redis
     container_name: handson_redis
+    hostname: redis
+    networks:
+      - handson_net
+
+  redis-commander:
+    container_name: handson_commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8030:8081"
+    networks:
+      - handson_net
+
+  redis-lab:
+    image: "redislabs/redismod"
+    container_name: handson_lab
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./data:/data
+    entrypoint: >
+      redis-server
+        --loadmodule /usr/lib/redis/modules/redisai.so
+          ONNX redisai_onnxruntime/redisai_onnxruntime.so
+          TF redisai_tensorflow/redisai_tensorflow.so
+          TFLITE redisai_tflite/redisai_tflite.so
+          TORCH redisai_torch/redisai_torch.so
+        --loadmodule /usr/lib/redis/modules/redisearch.so
+        --loadmodule /usr/lib/redis/modules/redisgraph.so
+        --loadmodule /usr/lib/redis/modules/redistimeseries.so
+        --loadmodule /usr/lib/redis/modules/rejson.so
+        --loadmodule /usr/lib/redis/modules/redisbloom.so
+        --appendonly yes
+    # redisgears is creating issue to start container
+    # --loadmodule /var/opt/redislabs/lib/modules/redisgears.so
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - handson_net
+
+  redisinsight:
+    image: redislabs/redisinsight
+    container_name: handson_insight
+    ports:
+      - "8035:8001"
+    volumes:
+      - ./insight_data:/data
     networks:
       - handson_net
 
@@ -151,6 +203,8 @@ volumes:
   grafana_storage:
   static_volume:
   media_volume:
+  data:
+  insight_data:
 
 networks:
   handson_net:
