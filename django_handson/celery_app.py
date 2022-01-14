@@ -11,5 +11,13 @@ app = Celery("handson")
 # - namespace='CELERY' means all celery-related configuration keys should have a `CELERY_` prefix.
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
+app.conf.beat_schedule = {
+    'msg-every-60-seconds': {
+        'task': 'channel_test.tasks.mqtt_pub_test',
+        'schedule': 60,
+        'args': ('hello.......................',)
+    },
+}
+
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()

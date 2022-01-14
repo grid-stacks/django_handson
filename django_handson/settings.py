@@ -218,6 +218,9 @@ CHANNEL_LAYERS = {
     },
 }
 
+CELERY_BROKER_URL = f"redis://{env('REDIS_CHANNELS_URL')}:{env('REDIS_CHANNELS_PORT')}"
+CELERY_RESULT_BACKEND = f"redis://{env('REDIS_CHANNELS_URL')}:{env('REDIS_CHANNELS_PORT')}"
+
 if env('USE_DOCKER') == "yes":
     MQTT_HOST = env('MQTT_HOST')
     MQTT_PORT = env('MQTT_PORT')

@@ -48,10 +48,14 @@ class MqttConsumer(SyncConsumer):
     def mqtt_sub(self, event):
         topic = event['text']['topic']
         payload = event['text']['payload']
-        # do something with topic and payload
-        print('subscribe')
-        print(topic)
-        print(payload)
+        print("l51 consumers sub =======================================")
+        print('subscribed.......................')
+        print('topic', topic)
+        print('payload', payload)
 
     def mqtt_pub(self, event):
+        print("l57 consumers pub =======================================")
         print('publish', event)
+        topic = event['text']['topic']
+        payload = event['text']['payload']
+        print("topic: {0}, payload: {1}".format(topic, payload))

@@ -5,7 +5,6 @@ from channels.layers import get_channel_layer
 from channels.routing import ProtocolTypeRouter, URLRouter, ChannelNameRouter
 from django.core.asgi import get_asgi_application
 
-from channel_test.consumers import MqttConsumer
 from channel_test.mqtt import TestMqttConsumer
 from django_handson.routing import websocket_urlpatterns
 
@@ -20,7 +19,7 @@ application = ProtocolTypeRouter({
     'mqtt': TestMqttConsumer,
     'channel': ChannelNameRouter(
         {
-            "mqtt": MqttConsumer.as_asgi()
+            "mqtt": TestMqttConsumer.as_asgi()
         }
     )
 })

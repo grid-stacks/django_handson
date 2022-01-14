@@ -31,7 +31,11 @@ def on_connect(c, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(c, userdata, msg):
+    print("l34 mqtt =======================================")
     print(msg.topic + " " + str(msg.payload))
+    print('c', dir(c))
+    print('userdata', userdata)
+    print('msg', dir(msg))
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_handson.settings')
