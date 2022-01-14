@@ -34,3 +34,16 @@ class TestAsyncConsumer(AsyncConsumer):
         print("async disconnected", event)
         # Without stop consumer the disconnect will be a infinite loop
         raise StopConsumer()
+
+
+class MqttConsumer(SyncConsumer):
+    def mqtt_sub(self, event):
+        topic = event['text']['topic']
+        payload = event['text']['payload']
+        # do something with topic and payload
+        print('subscribe')
+        print(topic)
+        print(payload)
+
+    def mqtt_pub(self, event):
+        print('publish', event)

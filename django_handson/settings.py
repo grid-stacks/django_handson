@@ -212,8 +212,19 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             "hosts": [
                 (env('REDIS_CHANNELS_URL'), env('REDIS_CHANNELS_PORT')) if env('USE_DOCKER') == "yes" else (
-                "localhost", 6379)
+                    "localhost", 6379)
             ],
         },
     },
 }
+
+if env('USE_DOCKER') == "yes":
+    MQTT_HOST = env('MQTT_HOST')
+    MQTT_PORT = env('MQTT_PORT')
+    MQTT_USERNAME = env('MQTT_USERNAME')
+    MQTT_PASSWORD = env('MQTT_PASSWORD')
+else:
+    MQTT_HOST = env('MQTT_HOST')
+    MQTT_PORT = env('MQTT_PORT')
+    MQTT_USERNAME = env('MQTT_USERNAME')
+    MQTT_PASSWORD = env('MQTT_PASSWORD')

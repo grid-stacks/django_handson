@@ -14,3 +14,10 @@ REDIS_CHANNELS_PORT=6379
 # Flower
 CELERY_FLOWER_USER=debug
 CELERY_FLOWER_PASSWORD=debug
+
+# MQTT
+# ------------------------------------------------------------------------------
+MQTT_HOST=mosquitto
+MQTT_PORT=1883
+MQTT_USERNAME=dhnchandan
+MQTT_PASSWORD=10091986
