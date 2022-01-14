@@ -1,33 +1,36 @@
-import json
-
 from channels.consumer import SyncConsumer, AsyncConsumer
+from channels.exceptions import StopConsumer
 
 
 class TestSyncConsumer(SyncConsumer):
     def websocket_connect(self, event):
         print("connected", event)
-        return True
+        self.send({
+            'type': 'websocket.accept'
+        })
 
-    def websocket_receive(self, text_data):
-        print("received", text_data)
+    def websocket_receive(self, event):
+        print("received", event)
 
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        self.send(json.dumps({
-            'message': message
-        }))
+        # self.send("Hello")
 
     def websocket_disconnect(self, event):
         print("disconnected", event)
+        # Without stop consumer the disconnect will be a infinite loop
+        raise StopConsumer()
 
 
 class TestAsyncConsumer(AsyncConsumer):
-    def websocket_connect(self, event):
+    async def websocket_connect(self, event):
         print("async connected", event)
+        await self.send({
+            'type': 'websocket.accept'
+        })
 
     def websocket_receive(self, event):
         print("async received", event)
 
     def websocket_disconnect(self, event):
         print("async disconnected", event)
+        # Without stop consumer the disconnect will be a infinite loop
+        raise StopConsumer()
