@@ -20,4 +20,4 @@ scrape_configs:
     tls_config:
       insecure_skip_verify: true
     static_configs:
-      - targets: [ 'nginx', 'django:8000' ]
+      - targets: [ 'nginx' ]
