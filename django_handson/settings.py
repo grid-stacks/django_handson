@@ -205,3 +205,15 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [
+                (env('REDIS_CHANNELS_URL'), env('REDIS_CHANNELS_PORT')) if env('USE_DOCKER') == "yes" else (
+                "localhost", 6379)
+            ],
+        },
+    },
+}

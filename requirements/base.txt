@@ -13,6 +13,7 @@ uvicorn[standard]   # https://github.com/encode/uvicorn
 environ
 django-environ
 channels
+channels_redis
 
 # Django
 # ------------------------------------------------------------------------------
