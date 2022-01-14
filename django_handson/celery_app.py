@@ -15,7 +15,7 @@ app.conf.beat_schedule = {
     'msg-every-60-seconds': {
         'task': 'channel_test.tasks.mqtt_pub_test',
         'schedule': 60,
-        'args': ('hello.......................',)
+        'args': ('30',)
     },
 }
 
