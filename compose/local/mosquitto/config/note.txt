@@ -1,0 +1,15 @@
+Default username: dhnchandan
+Default password: 10091986
+
+Procedure:
+1) First mosquitto.conf was configured with:
+    allow_anonymous true
+2) After entering into container, password file was created with:
+    touch /mosquitto/config/mosquitto.passwd
+3) Then password was generated with:
+    mosquitto_passwd -c /mosquitto/config/mosquitto.passwd <username>
+4) Then the username:password was copied and passed with mosquitto.passwd file
+5) Then subscription:
+    mosquitto_sub -h localhost -p 1883 -u "dhnchandan" -P "10091986" -t "test"
+6) And publish:
+    mosquitto_pub -h localhost -p 1883 -u "dhnchandan" -P "10091986" -t "test" -m "Hello"
