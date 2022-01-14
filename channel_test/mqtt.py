@@ -2,22 +2,6 @@ import os
 
 import paho.mqtt.client as mqtt
 from django.conf import settings
-from mqttasgi.consumers import MqttConsumer
-
-
-class TestMqttConsumer(MqttConsumer):
-    async def connect(self):
-        print('connected .........................................')
-        await self.subscribe('iot/testing/topic', 2)
-
-    async def receive(self, mqtt_message):
-        print('Received a message at topic:', mqtt_message['topic'])
-        print('With payload', mqtt_message['payload'])
-        print('And QOS:', mqtt_message['qos'])
-        pass
-
-    async def disconnect(self):
-        await self.unsubscribe('iot/testing/topic')
 
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -31,11 +15,9 @@ def on_connect(c, userdata, flags, rc):
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(c, userdata, msg):
-    print("l34 mqtt =======================================")
+    print("l18 mqtt =======================================")
     print(msg.topic + " " + str(msg.payload))
-    print('c', dir(c))
-    print('userdata', userdata)
-    print('msg', dir(msg))
+    print('msg', msg)
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_handson.settings')
