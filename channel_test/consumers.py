@@ -12,7 +12,10 @@ class TestSyncConsumer(SyncConsumer):
     def websocket_receive(self, event):
         print("received", event)
 
-        # self.send("Hello")
+        self.send({
+            'type': 'websocket.send',
+            'text': 'thanks',
+        })
 
     def websocket_disconnect(self, event):
         print("disconnected", event)
@@ -27,10 +30,15 @@ class TestAsyncConsumer(AsyncConsumer):
             'type': 'websocket.accept'
         })
 
-    def websocket_receive(self, event):
+    async def websocket_receive(self, event):
         print("async received", event)
 
-    def websocket_disconnect(self, event):
+        await self.send({
+            'type': 'websocket.send',
+            'text': 'thanks from async',
+        })
+
+    async def websocket_disconnect(self, event):
         print("async disconnected", event)
         # Without stop consumer the disconnect will be a infinite loop
         raise StopConsumer()

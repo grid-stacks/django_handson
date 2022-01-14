@@ -7,6 +7,7 @@ from mqttasgi.consumers import MqttConsumer
 
 class TestMqttConsumer(MqttConsumer):
     async def connect(self):
+        print('connected .........................................')
         await self.subscribe('iot/testing/topic', 2)
 
     async def receive(self, mqtt_message):
