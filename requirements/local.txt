@@ -6,6 +6,9 @@ django-prometheus
 mqttasgi
 chasgimqtt
 paho-mqtt
+neo4django
+neomodel
+django_neomodel
 
 # Testing
 # ------------------------------------------------------------------------------

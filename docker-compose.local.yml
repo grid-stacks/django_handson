@@ -211,6 +211,22 @@ services:
     networks:
       - handson_net
 
+  neo4j:
+    image: neo4j
+    container_name: handson_neo4j
+    env_file:
+      - ./.envs/.local/.neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./compose/local/neo4j/data:/data
+      - ./compose/local/neo4j/logs:/logs
+      - ./compose/local/neo4j/plugins:/plugins
+      - ./compose/local/neo4j/import:/var/lib/neo4j/import
+    networks:
+      - handson_net
+
 volumes:
   postgres_data:
   postgres_data_backups:
